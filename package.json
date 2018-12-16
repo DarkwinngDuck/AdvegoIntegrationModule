@@ -1,0 +1,30 @@
+{
+  "name": "@seo-booster/advego-integration-module",
+  "version": "1.0.0",
+  "description": "Advego public API integration module",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/massimo-ua/AdvegoIntegrationModule.git"
+  },
+  "keywords": [
+    "integration",
+    "advego",
+    "api"
+  ],
+  "author": "grishkov.m@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/massimo-ua/AdvegoIntegrationModule/issues"
+  },
+  "homepage": "https://github.com/massimo-ua/AdvegoIntegrationModule#readme",
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "jest": "^23.6.0"
+  }
+}
