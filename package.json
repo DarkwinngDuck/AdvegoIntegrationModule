@@ -8,7 +8,9 @@
   },
   "jest": {
     "collectCoverage": true,
-    "coverageReporters": ["text"]
+    "coverageReporters": [
+      "text"
+    ]
   },
   "repository": {
     "type": "git",
@@ -36,5 +38,9 @@
     "function-rate-limit": "^1.1.0",
     "moment-timezone": "^0.5.23",
     "xmlrpc": "^1.3.2"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }
