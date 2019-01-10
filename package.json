@@ -6,6 +6,10 @@
   "scripts": {
     "test": "jest"
   },
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": ["text"]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/massimo-ua/AdvegoIntegrationModule.git"
@@ -28,6 +32,9 @@
     "jest": "^23.6.0"
   },
   "dependencies": {
-    "function-rate-limit": "^1.1.0"
+    "eslint-plugin-jest": "^22.1.3",
+    "function-rate-limit": "^1.1.0",
+    "moment-timezone": "^0.5.23",
+    "xmlrpc": "^1.3.2"
   }
 }
