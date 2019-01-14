@@ -1,13 +1,17 @@
 const limiter = require('../lib/RateLimiter/RateLimiterGenerator');
 
 describe('RateLimiterGenerator', () => {
-  it('should return wrapped function passed in', () => {
+  it('should return rateLimitedFunction', () => {
+    expect(typeof limiter).toEqual('function');
+  });
+
+  it('should return rateLimitedFunction', () => {
     const test = limiter({
       rate: 1,
       delay: 3,
       callback: () => 1,
     });
-    expect(test).toBeDefined();
+    expect(test.name).toEqual('rateLimitedFunction');
   });
 
   it('should call wrapped function no more then rate per period', (done) => {
