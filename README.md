@@ -9,6 +9,7 @@ Advego public API integration module
 * ``` updateConfiguration - update named configuration ```
 * ``` listConfigurations - list named configurations names ```
 * ``` callMethod - call method in named configuration context ```
+* ``` it is possible to call method with dot notation e.x. aim.getAllJobs() ```
 ## Configuration object parameters
     token - API token,
     host - API host,
