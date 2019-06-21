@@ -1,16 +1,14 @@
 const SimpleConfigurationsManager = require('../lib/ConfigurationsManager/SimpleConfigurationsManager');
 
-class MokedConfigurationConstructor {
-  constructor({ host }) {
-    this.host = host;
-  }
-}
+const MokedConfigurationFactory = ({ host }) => ({
+  host,
+});
 
 describe('[SimpleConfigurationsManager]', () => {
   let scm;
 
   beforeEach(() => {
-    scm = new SimpleConfigurationsManager(MokedConfigurationConstructor);
+    scm = new SimpleConfigurationsManager(MokedConfigurationFactory);
   });
 
   test('Should create instance', () => {

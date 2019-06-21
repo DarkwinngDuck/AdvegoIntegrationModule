@@ -1,23 +1,22 @@
-const AdvegoIntegrationModule = require('../lib/AdvegoIntegrationModule');
+const AdvegoIntegrationModule = require('../lib/Api/AdvegoIntegrationModule');
 const SimpleConfigurationsManager = require('../lib/ConfigurationsManager/SimpleConfigurationsManager');
 
 let clientReturnValue;
 
-class MokedConfigurationConstructor {
-  constructor({ host }) {
-    this.host = host;
-    this.queues = {
-      getJobsAll: (options, callback) => {
-        if (clientReturnValue) {
-          callback(null, clientReturnValue);
-        } else {
-          callback(true);
-        }
-      },
-    };
-  }
-}
-const manager = new SimpleConfigurationsManager(MokedConfigurationConstructor);
+const MokedConfigurationFactory = ({ host }) => ({
+  host,
+  queues: {
+    getJobsAll: (options, callback) => {
+      if (clientReturnValue) {
+        callback(null, clientReturnValue);
+      } else {
+        callback(true);
+      }
+    },
+  },
+});
+
+const manager = new SimpleConfigurationsManager(MokedConfigurationFactory);
 
 describe('[AdvegoIntegrationModule]', () => {
   let aim;
@@ -72,15 +71,14 @@ describe('[AdvegoIntegrationModule]', () => {
       port: 4000,
       path: '/xml',
     };
+    clientReturnValue = 1;
     const spy = jest.spyOn(manager, 'getNamedConfiguration');
     aim.updateConfiguration(config);
-    aim.callMethod({
-      configurationName: 'super',
-      method: 'getJobsAll',
-    });
-    expect(spy).toHaveBeenCalledWith('super');
+    aim.callMethod('getJobsAll', 'super')
+      .then(() => {
+        expect(spy).toHaveBeenCalledWith('super');
+      });
   });
-
 
   test('Should resolve Promise with response if all OK on callMethod', (done) => {
     const config = {
@@ -91,10 +89,7 @@ describe('[AdvegoIntegrationModule]', () => {
     };
     aim.updateConfiguration(config);
     clientReturnValue = { jobs: [] };
-    aim.callMethod({
-      configurationName: 'super',
-      method: 'getJobsAll',
-    })
+    aim.callMethod('getJobsAll', 'super')
       .then((response) => {
         expect(response).toEqual(clientReturnValue);
         done();
@@ -110,10 +105,7 @@ describe('[AdvegoIntegrationModule]', () => {
     };
     aim.updateConfiguration(config);
     clientReturnValue = { error: 1 };
-    aim.callMethod({
-      configurationName: 'super',
-      method: 'getJobsAll',
-    })
+    aim.callMethod('getJobsAll', 'super')
       .catch((response) => {
         expect(response).toEqual(clientReturnValue.error);
         done();
@@ -129,10 +121,7 @@ describe('[AdvegoIntegrationModule]', () => {
     };
     aim.updateConfiguration(config);
     clientReturnValue = { has_errors: 1 };
-    aim.callMethod({
-      configurationName: 'super',
-      method: 'getJobsAll',
-    })
+    aim.callMethod('getJobsAll', 'super')
       .catch((response) => {
         expect(response).toEqual(clientReturnValue);
         done();
