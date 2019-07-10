@@ -16,13 +16,15 @@ const MokedConfigurationFactory = ({ host }) => ({
   },
 });
 
+const errorsHandler = jest.fn().mockImplementation(() => null);
+
 const manager = new SimpleConfigurationsManager(MokedConfigurationFactory);
 
 describe('[AdvegoIntegrationModule]', () => {
   let aim;
 
   beforeEach(() => {
-    aim = new AdvegoIntegrationModule(manager);
+    aim = new AdvegoIntegrationModule(manager, errorsHandler);
     aim.reset();
     clientReturnValue = undefined;
   });
@@ -105,14 +107,15 @@ describe('[AdvegoIntegrationModule]', () => {
     };
     aim.updateConfiguration(config);
     clientReturnValue = { error: 1 };
+    errorsHandler.mockImplementation(() => new Error('test'));
     aim.callMethod('getJobsAll', 'super')
       .catch((response) => {
-        expect(response).toEqual(clientReturnValue.error);
+        expect(response instanceof Error).toEqual(true);
         done();
       });
   });
 
-  test('Should reject Promise with response if response has has_errors property on callMethod', (done) => {
+  test('Should reject Promise with response if response has errors property on callMethod', (done) => {
     const config = {
       name: 'super',
       host: 'localhost',
@@ -120,10 +123,10 @@ describe('[AdvegoIntegrationModule]', () => {
       path: '/xml',
     };
     aim.updateConfiguration(config);
-    clientReturnValue = { has_errors: 1 };
+    clientReturnValue = { errors: [{ error_msg: 'test' }] };
     aim.callMethod('getJobsAll', 'super')
       .catch((response) => {
-        expect(response).toEqual(clientReturnValue);
+        expect(response instanceof Error).toEqual(true);
         done();
       });
   });
