@@ -39,9 +39,9 @@ describe('[AdvegoIntegrationModule]', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  test('Should call manager.setNamedConfiguration for every configuration on init', () => {
+  test('Should call manager.setNamedConfiguration for every configuration on setConfigurations', () => {
     const spy = jest.spyOn(manager, 'setNamedConfiguration');
-    aim.init([
+    aim.setConfigurations([
       {
         name: 'ru',
         host: 'localhost',

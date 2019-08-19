@@ -41,9 +41,18 @@ describe('[SimpleConfigurationsManager]', () => {
     expect(test.host).toEqual('qwerty');
   });
 
-  test('Should throw NamedConfigurationNotFound if passed in configuration does not exists', () => {
-    expect(() => {
-      scm.getNamedConfiguration('test');
-    }).toThrowError('NamedConfigurationNotFound');
+  test('Should return default configuration if passed in configuration name does not exists', () => {
+    scm.setDefaultConfigurationName('test');
+    scm.setNamedConfiguration({ name: 'test', host: 'localhost' });
+    expect(scm.getNamedConfiguration('qwerty')).toEqual({ host: 'localhost' });
+  });
+
+  test('Should change default configuration name on setDefaultConfigurationName', () => {
+    scm.setDefaultConfigurationName('test');
+    scm.setNamedConfiguration({ name: 'test', host: 'localhost' });
+    scm.setNamedConfiguration({ name: 'qwerty', host: 'qwerty' });
+    expect(scm.getNamedConfiguration()).toEqual({ host: 'localhost' });
+    scm.setDefaultConfigurationName('qwerty');
+    expect(scm.getNamedConfiguration()).toEqual({ host: 'qwerty' });
   });
 });
