@@ -11,7 +11,9 @@ Advego public API integration module
 
 * available methods
 
-*  ``` init - pass in list of named configurations ```
+*  ``` setConfigurations - pass in list of named configurations ```
+
+*  ``` setDefaultConfigurationName - set fallback name if requested configuration not found ```
 
 *  ``` updateConfiguration - update named configuration ```
 
@@ -29,6 +31,15 @@ Changed callMethod contract
 or
 
 ```aim[method](configurationName, [options])```
+
+## v1.1.4 breaking changes
+init renamed to setConfigurations (breaking change)
+
+added setDefaultConfigurationName
+
+if requested configuration not found it will be substituted with default configuration
+
+fixed error that prevent to call client method directly if there was no throttling settings defined
 
 ## Configuration object parameters
 
