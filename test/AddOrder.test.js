@@ -15,7 +15,7 @@ const xmlrpc = {
 
 const errorChecker = jest.fn();
 
-describe.only('[AddOrder]', () => {
+describe('[AddOrder]', () => {
   let addOrder;
 
   beforeEach(() => {
