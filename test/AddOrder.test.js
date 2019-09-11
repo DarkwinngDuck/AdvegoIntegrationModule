@@ -13,14 +13,14 @@ const xmlrpc = {
   createSecureClient: () => ({ methodCall: client.methodCall }),
 };
 
-const errorChecker = jest.fn();
+const errorHandler = jest.fn().mockImplementation(() => null);
 
-describe('[AddOrder]', () => {
+describe.only('[AddOrder]', () => {
   let addOrder;
 
   beforeEach(() => {
     Object.assign(clientResponse, { success: true, payload: { id_order: 1 } });
-    addOrder = AddOrder(xmlrpc, errorChecker);
+    addOrder = AddOrder(xmlrpc, errorHandler);
   });
 
   afterEach(() => {
@@ -33,10 +33,7 @@ describe('[AddOrder]', () => {
 
   it('should call xmlrpc.createSecureClient', async (done) => {
     const options = {
-      host: 1,
-      port: 1,
-      path: 1,
-      token: 1,
+      host: 1, port: 1, path: 1, token: 1,
     };
     const spy = jest.spyOn(xmlrpc, 'createSecureClient');
     await addOrder(options);
@@ -72,11 +69,9 @@ describe('[AddOrder]', () => {
 
   it('should throw error if advego.addOrder failed', (done) => {
     const addOrderError = new Error('addOrderError');
-    errorChecker.mockImplementationOnce(() => {
-      throw addOrderError;
-    });
+    errorHandler.mockImplementation(() => addOrderError);
     addOrder({}).catch((error) => {
-      expect(error).toStrictEqual(addOrderError);
+      expect(error).toEqual(addOrderError);
       done();
     });
   });
@@ -84,24 +79,20 @@ describe('[AddOrder]', () => {
   it('should throw error if advego.editOrderThemes failed', (done) => {
     const options = { themes_active: true };
     const editOrderThemesError = new Error('editOrderThemesError');
-    errorChecker
-      .mockImplementationOnce(() => {})
-      .mockImplementationOnce(() => {
-        throw editOrderThemesError;
-      });
+    errorHandler
+      .mockImplementationOnce(() => null)
+      .mockImplementationOnce(() => editOrderThemesError);
     addOrder(options).catch((error) => {
-      expect(error).toStrictEqual(editOrderThemesError);
+      expect(error).toEqual(editOrderThemesError);
       done();
     });
   });
 
   it('should throw error if advego.startOrder failed', (done) => {
     const startOrderError = new Error('startOrderError');
-    errorChecker
-      .mockImplementationOnce(() => {})
-      .mockImplementationOnce(() => {
-        throw startOrderError;
-      });
+    errorHandler
+      .mockImplementationOnce(() => null)
+      .mockImplementationOnce(() => startOrderError);
     addOrder({}).catch((error) => {
       expect(error).toEqual(startOrderError);
       done();
