@@ -1,24 +1,24 @@
-const errorHandler = require('../lib/Errors/ErrorHandler');
+const { errorsHandler } = require('../lib/Errors');
 
-describe('[ErrorHandler]', () => {
+describe('[errorsHandler]', () => {
   it('should be a function', () => {
-    expect(typeof errorHandler).toStrictEqual('function');
+    expect(typeof errorsHandler).toStrictEqual('function');
   });
 
   it('should return error if response has error property', () => {
-    const response = errorHandler({ error: 'test' });
+    const response = errorsHandler({ error: 'test' });
     expect(response instanceof Error).toStrictEqual(true);
     expect(response.message).toStrictEqual('test');
   });
 
   it('should return error if response has error_msg property', () => {
-    const response = errorHandler({ error_msg: 'test' });
+    const response = errorsHandler({ error_msg: 'test' });
     expect(response instanceof Error).toStrictEqual(true);
     expect(response.message).toStrictEqual('test');
   });
 
   it('should return error if response has errors property', () => {
-    const response = errorHandler({ errors: [{ error_msg: 'test' }] });
+    const response = errorsHandler({ errors: [{ error_msg: 'test' }] });
     expect(response instanceof Error).toStrictEqual(true);
     expect(response.message).toStrictEqual('test');
   });
