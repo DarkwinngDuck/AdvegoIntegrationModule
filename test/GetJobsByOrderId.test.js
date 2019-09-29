@@ -1,6 +1,6 @@
-const GetJobsByOrderId = require("../lib/Client/HttpRPCXMLClient/GetJobsByOrderId");
+const GetJobsByOrderId = require('../lib/Client/HttpRPCXMLClient/GetJobsByOrderId');
 
-describe("[GetJobsByOrderId]", () => {
+describe('[GetJobsByOrderId]', () => {
   let getJobsByOrderId;
   const clientResponse = {};
   const client = {
@@ -9,10 +9,10 @@ describe("[GetJobsByOrderId]", () => {
         return cb(null, clientResponse.payload);
       }
       return cb(clientResponse.payload);
-    }
+    },
   };
   const xmlrpc = {
-    createSecureClient: () => ({ methodCall: client.methodCall })
+    createSecureClient: () => ({ methodCall: client.methodCall }),
   };
   const errorChecker = jest.fn();
 
@@ -25,31 +25,30 @@ describe("[GetJobsByOrderId]", () => {
     jest.clearAllMocks();
   });
 
-  it("should be a function", () => {
-    expect(typeof getJobsByOrderId).toStrictEqual("function");
+  it('should be a function', () => {
+    expect(typeof getJobsByOrderId).toStrictEqual('function');
   });
 
-  it("should call xmlrpc.createSecureClient", async () => {
+  it('should call xmlrpc.createSecureClient', async () => {
     const options = {
       host: 1,
       port: 1,
       path: 1,
-      token: 1
     };
-    const spy = jest.spyOn(xmlrpc, "createSecureClient");
+    const spy = jest.spyOn(xmlrpc, 'createSecureClient');
     await getJobsByOrderId(options);
     expect(spy).toHaveBeenCalledWith(options);
   });
 
-  it("should call client.methodCall with advego.getJobsAll and order options", async () => {
+  it('should call client.methodCall with advego.getJobsAll and order options', async () => {
     const options = { id: 1 };
-    const spy = jest.spyOn(client, "methodCall");
+    const spy = jest.spyOn(client, 'methodCall');
     await getJobsByOrderId(options);
-    expect(spy.mock.calls[0][0]).toStrictEqual("advego.getJobsAll");
+    expect(spy.mock.calls[0][0]).toStrictEqual('advego.getJobsAll');
     expect(spy.mock.calls[0][1]).toStrictEqual([{ id: 1 }]);
   });
 
-  it("should call errorChecker", async () => {
+  it('should call errorChecker', async () => {
     const options = { id: 1 };
     await getJobsByOrderId(options);
     expect(errorChecker).toHaveBeenCalledWith({ id: 1 });
