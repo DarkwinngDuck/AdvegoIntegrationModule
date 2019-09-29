@@ -36,7 +36,6 @@ describe('[AddOrder]', () => {
       host: 1,
       port: 1,
       path: 1,
-      token: 1,
     };
     const spy = jest.spyOn(xmlrpc, 'createSecureClient');
     await addOrder(options);
@@ -45,28 +44,28 @@ describe('[AddOrder]', () => {
   });
 
   it('should call client.methodCall with advego.addOrder and order options', async (done) => {
-    const options = { title: 1 };
+    const options = { title: 1, token: 1 };
     const spy = jest.spyOn(client, 'methodCall');
     await addOrder(options);
     expect(spy.mock.calls[0][0]).toStrictEqual('advego.addOrder');
-    expect(spy.mock.calls[0][1]).toStrictEqual([{ title: 1 }]);
+    expect(spy.mock.calls[0][1]).toStrictEqual([{ title: 1, token: 1 }]);
     done();
   });
 
   it('should call client.methodCall with advego.editOrderThemes and order options', async (done) => {
-    const options = { themes: [], themes_active: true };
+    const options = { themes: [], themes_active: true, token: 1 };
     const spy = jest.spyOn(client, 'methodCall');
     await addOrder(options);
     expect(spy.mock.calls[1][0]).toStrictEqual('advego.editOrderThemes');
-    expect(spy.mock.calls[1][1]).toStrictEqual([{ themes: [], id_order: 1 }]);
+    expect(spy.mock.calls[1][1]).toStrictEqual([{ themes: [], id_order: 1, token: 1 }]);
     done();
   });
 
   it('should call client.methodCall with advego.startOrder and ID options', async (done) => {
     const spy = jest.spyOn(client, 'methodCall');
-    await addOrder({});
+    await addOrder({ token: 1 });
     expect(spy.mock.calls[1][0]).toStrictEqual('advego.startOrder');
-    expect(spy.mock.calls[1][1]).toStrictEqual([{ ID: 1 }]);
+    expect(spy.mock.calls[1][1]).toStrictEqual([{ ID: 1, token: 1 }]);
     done();
   });
 
