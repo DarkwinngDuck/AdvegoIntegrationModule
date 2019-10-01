@@ -53,4 +53,10 @@ describe('[GetJobsByOrderId]', () => {
     await getJobsByOrderId(options);
     expect(errorChecker).toHaveBeenCalledWith({ id: 1 });
   });
+
+  it('should return jobs property of successfull response', async () => {
+    Object.assign(clientResponse.payload, { jobs: [] });
+    const output = await getJobsByOrderId({});
+    expect(output).toStrictEqual([]);
+  });
 });
