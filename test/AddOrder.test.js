@@ -53,11 +53,11 @@ describe('[AddOrder]', () => {
   });
 
   it('should call client.methodCall with advego.editOrderThemes and order options', async (done) => {
-    const options = { themes: [], themes_active: true, token: 1 };
+    const options = { jobs: ['test'], themes_active: true, token: 1 };
     const spy = jest.spyOn(client, 'methodCall');
     await addOrder(options);
     expect(spy.mock.calls[1][0]).toStrictEqual('advego.editOrderThemes');
-    expect(spy.mock.calls[1][1]).toStrictEqual([{ themes: [], id_order: 1, token: 1 }]);
+    expect(spy.mock.calls[1][1]).toStrictEqual([{ themes: ['test'], id_order: 1, token: 1 }]);
     done();
   });
 
