@@ -45,7 +45,7 @@ describe('[GetJobsByOrderId]', () => {
     const spy = jest.spyOn(client, 'methodCall');
     await getJobsByOrderId(options);
     expect(spy.mock.calls[0][0]).toStrictEqual('advego.getJobsAll');
-    expect(spy.mock.calls[0][1]).toStrictEqual([{ id: 1 }]);
+    expect(spy.mock.calls[0][1]).toStrictEqual([{ id: 1, with_html: true }]);
   });
 
   it('should call errorChecker', async () => {
